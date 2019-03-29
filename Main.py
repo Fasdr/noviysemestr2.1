@@ -41,13 +41,16 @@ def normal(s):
     return n
 
 
-N = 5
+N = 40
 h = 1/N
 a = 1
 b = 1.2
 d = 1/10**6
 S = [[np.sign(i*(j-i)*(N-j-1)) for i in range(j+1)] for j in range(N)]
 n = 0
+m = 0
+
+
 S1 = [S, funca(normal(S))]
 lamax = [prod(normal(S1[0]), S1[1])]
 
@@ -58,14 +61,20 @@ while True:
     lamax.append(prod(normal(S1[n]), S1[n+1]))
     if abs(lamax[n]-lamax[n-1])/lamax[n-1] < d:
         break
-
-S2 = [S, funcb(normal(S), lamax[0])]
+    
+print(n)
+S2 = [S, funcb(normal(S), lamax[n])]
 lamin = [prod(normal(S2[0]), S2[1])]
-for k in range(1, n+1):
-    S2.append(funcb(normal(S2[k]), lamax[k]))
-    lamin.append(prod(normal(S2[k]), S2[k+1]))
 
-print(lamax[n], lamin[n])
+while True:
+    m += 1
+    S2.append(funcb(normal(S2[m]),lamax[n]))
+    lamin.append(prod(normal(S2[m]), S2[m+1]))
+    if abs(lamin[m]-lamin[m-1])/(lamax[n]-lamin[m-1]) < d:
+        break
+print(m)
+
+print(lamax[n], lamax[n]-lamin[m])
 
 
 
