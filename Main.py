@@ -45,19 +45,27 @@ N = 5
 h = 1/N
 a = 1
 b = 1.2
-d = 1/10**4
+d = 1/10**6
 S = [[np.sign(i*(j-i)*(N-j-1)) for i in range(j+1)] for j in range(N)]
 n = 0
 S1 = [S, funca(normal(S))]
-la = [prod(normal(S1[0]), S1[1])]
+lamax = [prod(normal(S1[0]), S1[1])]
+
 
 while True:
     n += 1
     S1.append(funca(normal(S1[n])))
-    la.append(prod(normal(S1[n]), S1[n+1]))
-    if abs(la[n]-la[n-1])/la[n-1] < d:
+    lamax.append(prod(normal(S1[n]), S1[n+1]))
+    if abs(lamax[n]-lamax[n-1])/lamax[n-1] < d:
         break
-print(la)
+
+S2 = [S, funcb(normal(S), lamax[0])]
+lamin = [prod(normal(S2[0]), S2[1])]
+for k in range(1, n+1):
+    S2.append(funcb(normal(S2[k]), lamax[k]))
+    lamin.append(prod(normal(S2[k]), S2[k+1]))
+
+print(lamax[n], lamin[n])
 
 
 
