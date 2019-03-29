@@ -12,7 +12,7 @@ def funca(s):
     return n
 
 
-def funcb(s,l):
+def funcb(s, l):
     n = copy.deepcopy(s)
     for j in range(1, N-1):
         for i in range(1, j):
@@ -29,7 +29,7 @@ def prod(s1, s2):
 
 
 def norm(s):
-    return math.sqrt(prod(s,s))
+    return math.sqrt(prod(s, s))
 
 
 def normal(s):
@@ -45,9 +45,20 @@ N = 5
 h = 1/N
 a = 1
 b = 1.2
+d = 1/10**4
 S = [[np.sign(i*(j-i)*(N-j-1)) for i in range(j+1)] for j in range(N)]
+n = 0
+S1 = [S, funca(normal(S))]
+la = [prod(normal(S1[0]), S1[1])]
 
-print(S, prod(funcb(S,1), S))
+while True:
+    n += 1
+    S1.append(funca(normal(S1[n])))
+    la.append(prod(normal(S1[n]), S1[n+1]))
+    if abs(la[n]-la[n-1])/la[n-1] < d:
+        break
+print(la)
+
 
 
 # m = 10
